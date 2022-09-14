@@ -3,6 +3,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:note_app1/connection/user_database_con.dart';
+import 'package:note_app1/screens/forget_password.dart';
 import 'package:note_app1/screens/home_screen.dart';
 import 'package:note_app1/screens/signup_screen.dart';
 import 'package:note_app1/widgets/sizeSpace.dart';
@@ -54,7 +55,15 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 TextButton(
-                    onPressed: () {}, child: const Text('forget password')),
+                    onPressed: () {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ForgetPasswordScreen(),
+                          ),
+                          (route) => false);
+                    },
+                    child: const Text('forget password')),
               ],
             ),
             ElevatedButton(

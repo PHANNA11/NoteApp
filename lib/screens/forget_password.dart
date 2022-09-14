@@ -1,28 +1,25 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:note_app1/connection/user_database_con.dart';
-import 'package:note_app1/models/user_model.dart';
-import 'package:note_app1/screens/login_screen.dart';
 
+import '../connection/user_database_con.dart';
+import '../models/user_model.dart';
 import '../widgets/sizeSpace.dart';
 import '../widgets/textfield_wiget.dart';
+import 'login_screen.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+class ForgetPasswordScreen extends StatefulWidget {
+  const ForgetPasswordScreen({Key? key}) : super(key: key);
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  State<ForgetPasswordScreen> createState() => _ForgetPasswordScreenState();
 }
 
-TextEditingController _mainController = TextEditingController();
-TextEditingController _passwordController = TextEditingController();
-TextEditingController _userNameController = TextEditingController();
-TextEditingController _cpasswordController = TextEditingController();
-
-class _SignUpScreenState extends State<SignUpScreen> {
+class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
+  TextEditingController _userNameController = TextEditingController();
+  TextEditingController _mainController = TextEditingController();
+  TextEditingController _newPassController = TextEditingController();
+  TextEditingController _newCPassController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,14 +30,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
             children: [
               const Center(
                 child: Text(
-                  'Sign Up',
+                  'Forget Password',
                   style: TextStyle(
                       fontSize: 35,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Bangers'),
                 ),
               ),
-              SizeSpace(),
+              const SizeSpace(),
               TextFieldWidget(
                 hintPassword: false,
                 icons: Icons.person,
@@ -60,17 +57,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
               TextFieldWidget(
                 hintPassword: true,
                 icons: Icons.lock,
-                controller: _passwordController,
-                hintText: 'password',
-                label: 'Enter password',
+                controller: _newPassController,
+                hintText: 'new password',
+                label: 'Enter new password',
               ),
               SizeSpace(),
               TextFieldWidget(
                 hintPassword: true,
                 icons: Icons.lock_clock_outlined,
-                controller: _cpasswordController,
-                hintText: 'Enter Confirm password',
-                label: 'Confirm password',
+                controller: _newCPassController,
+                hintText: 'new Confirm password',
+                label: 'comfirm password',
               ),
               SizeSpace(),
               ElevatedButton(
@@ -81,20 +78,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   // print(_cpasswordController.text);
                   if (_userNameController.text.isEmpty ||
                       _mainController.text.isEmpty ||
-                      _passwordController.text.isEmpty ||
-                      _cpasswordController.text.isEmpty) {
+                      _newPassController.text.isEmpty ||
+                      _newCPassController.text.isEmpty) {
                     print('Field have null');
-                  } else if (_passwordController.text.trim() !=
-                      _cpasswordController.text.trim()) {
+                  } else if (_newPassController.text.trim() !=
+                      _newCPassController.text.trim()) {
                     print('Field Incorrect');
                   } else {
                     await UserDatabaseCon()
-                        .insertUserData(
+                        .updateUserAccount(
                           User(
-                              id: Random().nextInt(10000),
                               email: _mainController.text.trim(),
-                              password: _passwordController.text.trim(),
-                              userName: _userNameController.text.trim()),
+                              password: _newPassController.text.trim(),
+                              userName: _userNameController.text.trim(),
+                              id: 0),
                         )
                         .whenComplete(() => Navigator.pushAndRemoveUntil(
                             context,
@@ -109,7 +106,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   width: 200,
                   child: const Center(
                     child: Text(
-                      "Create",
+                      "save",
                       style:
                           TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                     ),
@@ -120,7 +117,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Ready have an Account.!'),
+                  const Text('Ready have an Account.!'),
                   TextButton(
                       onPressed: () {
                         Navigator.pop(context);

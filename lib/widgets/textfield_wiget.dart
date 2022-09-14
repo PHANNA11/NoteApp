@@ -11,10 +11,10 @@ class TextFieldWidget extends StatelessWidget {
       required this.hintPassword,
       Key? key})
       : super(key: key);
-  String label, hintText;
-  TextEditingController controller;
-  IconData icons;
-  bool hintPassword;
+  late String label, hintText;
+  late TextEditingController controller;
+  late IconData icons;
+  late bool hintPassword;
   @override
   Widget build(BuildContext context) {
     return Padding(

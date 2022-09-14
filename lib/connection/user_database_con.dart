@@ -42,4 +42,11 @@ class UserDatabaseCon {
     }
     return User.toJson(res.first);
   }
+
+  Future<void> updateUserAccount(User user) async {
+    var db = await initializeUserData();
+    await db.rawUpdate(
+        "UPDATE $tableUser SET password='${user.password}' WHERE userName='${user.userName}' AND $mailField='${user.email}'");
+    print('Update Complet');
+  }
 }
