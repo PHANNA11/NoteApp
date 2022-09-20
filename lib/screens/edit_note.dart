@@ -1,22 +1,19 @@
-import 'dart:math';
-
 import 'package:awesome_dropdown/awesome_dropdown.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:note_app1/connection/note_database_con.dart';
-import 'package:note_app1/models/note_model.dart';
 import 'package:note_app1/screens/home_screen.dart';
-import 'package:note_app1/widgets/textfield_wiget.dart';
 
-class AddNoteScreen extends StatefulWidget {
-  const AddNoteScreen({Key? key}) : super(key: key);
+import '../models/note_model.dart';
 
+class EditNote extends StatefulWidget {
+  EditNote({required this.notes, Key? key}) : super(key: key);
+  Notes notes;
   @override
-  State<AddNoteScreen> createState() => _AddNoteScreenState();
+  State<EditNote> createState() => _EditNoteState();
 }
 
-class _AddNoteScreenState extends State<AddNoteScreen> {
+class _EditNoteState extends State<EditNote> {
   TextEditingController titleController = TextEditingController();
   TextEditingController noteBodyController = TextEditingController();
   bool _isBackPressedOrTouchedOutSide = false,
@@ -27,7 +24,9 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    selectCatageryItem = 'select one';
+    selectCatageryItem = widget.notes.noteCatagery;
+    titleController.text = widget.notes.noteTitle;
+    noteBodyController.text = widget.notes.noteBody;
   }
 
   @override
@@ -54,14 +53,14 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                     )),
               ),
               const Text(
-                'Add Note',
+                'Edit Note',
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               ),
               MaterialButton(
                 onPressed: () async {
                   await NotesDatabaseCon()
-                      .inserNoteData(Notes(
-                          noteId: Random().nextInt(500),
+                      .editNoteData(Notes(
+                          noteId: widget.notes.noteId,
                           noteTitle: titleController.text,
                           noteCatagery: selectCatageryItem,
                           noteDate: DateTime.now().toIso8601String(),

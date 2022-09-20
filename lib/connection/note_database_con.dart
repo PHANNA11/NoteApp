@@ -21,7 +21,7 @@ class NotesDatabaseCon {
     String appDocPath = appDocDir.path;
     String path = await getDatabasesPath();
     return openDatabase(
-      join(path, 'data.db'),
+      join(path, 'dataTable.db'),
       version: 1,
       onCreate: (db, version) async {
         await db.execute(
@@ -34,5 +34,22 @@ class NotesDatabaseCon {
     var db = await initializeNoteData();
     await db.insert(noteTable, notes.fromJson());
     print('Note was added');
+  }
+
+  Future<List<Notes>> readNoteData() async {
+    var db = await initializeNoteData();
+    List<Map<String, dynamic>> result = await db.query(noteTable);
+    return result.map((e) => Notes.toJson(e)).toList();
+  }
+
+  Future<void> editNoteData(Notes notes) async {
+    var db = await initializeNoteData();
+    await db.update(noteTable, notes.fromJson(),
+        where: '$Id=?', whereArgs: [notes.noteId]);
+  }
+
+  Future<void> deleteNoteData(int noteId) async {
+    var db = await initializeNoteData();
+    await db.delete(noteTable, where: '$Id=?', whereArgs: [noteId]);
   }
 }
