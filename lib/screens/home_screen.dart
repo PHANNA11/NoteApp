@@ -1,7 +1,10 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:note_app1/connection/note_database_con.dart';
+import 'package:note_app1/screens/add_catagery_screen.dart';
 import 'package:note_app1/screens/add_note_screen.dart';
 import 'package:note_app1/screens/edit_note.dart';
 
@@ -35,6 +38,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+      drawerScrimColor: Colors.black,
+
       appBar: AppBar(
         elevation: 0,
         backgroundColor: const Color.fromARGB(255, 243, 241, 241),
@@ -43,6 +48,20 @@ class _HomeScreenState extends State<HomeScreen> {
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,
+        actions: [
+          TextButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddCatagery(),
+                    ));
+              },
+              child: const Center(
+                child: Text('add Catagery',
+                    style: TextStyle(color: Colors.black, fontSize: 18)),
+              ))
+        ],
       ),
       body: SizedBox(
         height: 500,

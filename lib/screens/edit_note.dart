@@ -1,5 +1,6 @@
 import 'package:awesome_dropdown/awesome_dropdown.dart';
 import 'package:flutter/material.dart';
+import 'package:note_app1/connection/catagery_database_con.dart';
 
 import 'package:note_app1/connection/note_database_con.dart';
 import 'package:note_app1/screens/home_screen.dart';
@@ -19,11 +20,23 @@ class _EditNoteState extends State<EditNote> {
   bool _isBackPressedOrTouchedOutSide = false,
       _isDropDownOpened = false,
       _isPanDown = false;
-  List<String> listCatagery = ['person', 'study', 'work', 'RND', 'other'];
+  List<String> listCatagery = [];
   String selectCatageryItem = '';
+  getCatageryListFromDatabase() async {
+    await CatageryDatabaseCon().readCatageryData().then((value) {
+      setState(() {
+        value.forEach((element) {
+          listCatagery.add(element.CatageryName);
+        });
+      });
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
+    super.initState();
+    getCatageryListFromDatabase();
     selectCatageryItem = widget.notes.noteCatagery;
     titleController.text = widget.notes.noteTitle;
     noteBodyController.text = widget.notes.noteBody;
